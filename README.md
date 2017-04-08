@@ -174,3 +174,23 @@ function curry(fn, argumentCount) {
 Are closures a violation of our definition of a pure function? Javascript function purity is a level of confidence, rather than a binary condition. A matter of confidence that you will get the same output given the same input.
 
 The module pattern says to encapsulate state that changes over time - a usage of closure that is not consistent with functional programming.
+
+
+## Immutability
+Don't change stuff! :wink:
+
+...huge rant against using `const` because 'people do not understand it' -> da fuq?
+
+In my opinion, `const` increases readability.  You would only find it confusing (ie, you assume it means Immutability of values, rather than assignment) if you didn't know javascript... Simpson says otherwise - says not to use it because some people might find it confusing (wtf? May as well not use recursion or reduce, etc.  Argument makes no sense).
+
+We use immutability to increase readability confidence.
+`var z = Object.freeze([1, 2, 3])` <- not for the purpose of the code, but for the purpose of telling the reader it cannot change.
+
+## Lists
+Start looking at the logic of your program as the data structure. Operations over lists.
+### Map: Transformation
+We do not transform the values in place, but rather create a new data structure that is a transformation of the original data (projecting the data to the new data structure).
+### Filter
+Big rant on filtering, mostly regard the name stating that it implies 'filter out' but in practice is 'filter in' and that the creators have misnamed this method and that Simpson creates his own `filterIn` and `filterOut` methods.
+### Reduce
+Javascript reduce does not require an initial value, and will just use the first value in place of initial value.
