@@ -49,6 +49,7 @@ Keep the inner core of your program side effect free, and move all side effects 
 - A pure function is one that doesn't rely on a variable outside itself (side cause) and doesn't change a variable outside itself (side effect).
 - It doesn't rely on variables outside itself.
 - Execution at any point in your program has a predictable and consistent result.
+- A function is pure if it has referential transparency.  **Referential transparency means you could replace the function call with its return value without effecting the rest of the program.**
 
 ### How to refactor an impure function/dealing with side effects?
 You can wrap an impure function with a pure function to encapsulate as holder of state - making the interaction with that function pure.
