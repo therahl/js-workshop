@@ -54,7 +54,7 @@ Keep the inner core of your program side effect free, and move all side effects 
 ### How to refactor an impure function/dealing with side effects?
 You can wrap an impure function with a pure function to encapsulate as holder of state - making the interaction with that function pure.
 
-```
+```javascript
 function F(x) {
   var y;
   f(x);
@@ -66,7 +66,7 @@ function F(x) {
 }
 ```
 When you can't do that (maybe you do not have access to the impure function), you can create an interface that captures state and restores it.
-```
+```javascript
 // function located in library, or elsewhere
 function f() {
   y = 2 * Math.pow(x, 2) + 3;
@@ -88,7 +88,7 @@ Abstraction takes two things that when together, are too hard to reason about, p
 
 A **higher order function** is a function that has inputs or outputs or both that are other functions.
 
-```
+```javascript
 function mult(x, y) {
   return x * y;
 }
@@ -108,13 +108,13 @@ Functional programming is intentionally inserting abstraction. Layer upon layer 
 
 Compose lists its arguments in the order they appear in the code, not in the order of execution (ie, inner to outer)
 For example:
-```
+```javascript
 compose(fn2, fn1){
   return fn2(fn1())
 }
 ```
 pipe does the opposite:
-```
+```javascript
 pipe(fn1, fn2){
   return fn2(fn1())
 }
@@ -129,7 +129,7 @@ Closure is when a function 'remembers' the (lexical) variables around it even wh
 - Both allow you to provide initial input and defer execution until later.
 - Don't need to know all arguments up front.
 
-```
+```javascript
 // generalized function
 function foo(a, b) {
   return a + b
@@ -146,14 +146,14 @@ addTen(3) // 13
 - Currying provides **one argument at a time** in each function call.
 
 Javascript curry implementation often accepts multiple arguments ('loose currying'), but in the strictest sense, currying should only accept on argument.
-```
+```javascript
 var f = curry(foo, 3) // 3 is the number of arguments
 f(1)(2)(3)
 // loose curry
 f(1, 2)(3)
 ```
 partial
-```
+```javascript
 function partial (fn, ...firstArgs) {
   return function applied(...lastArgs) {
     return fn(...firstArgs, ...lastArgs);
@@ -161,7 +161,7 @@ function partial (fn, ...firstArgs) {
 }
 ```
 curry (my own, broken implementation...)
-```
+```javascript
 function curry(fn, argumentCount) {
   let args = [];
   return (x) => {
@@ -194,3 +194,22 @@ We do not transform the values in place, but rather create a new data structure 
 Big rant on filtering, mostly regard the name stating that it implies 'filter out' but in practice is 'filter in' and that the creators have misnamed this method and that Simpson creates his own `filterIn` and `filterOut` methods.
 ### Reduce
 Javascript reduce does not require an initial value, and will just use the first value in place of initial value.
+### Fusion
+Composed map functions
+### Transduce
+
+
+------------------------------------------------------------------
+
+# Rethinking Async
+Time is the most difficult state to manage.  Async patterns attempt to make time related state more declarative.
+## Async Patterns
+  * Parallel vs Async
+  * Thunks
+  * Promises
+  * Generators / Coroutines
+
+### Parallel vs Async
+### Thunks
+### Promises
+### Generators / Coroutines
