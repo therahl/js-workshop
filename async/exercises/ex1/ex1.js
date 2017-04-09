@@ -19,11 +19,24 @@ function output(text) {
 
 // **************************************
 // The old-n-busted callback way
-
+let files = [];
 function getFile(file) {
-	fakeAjax(file,function(text){
-		// what do we do here?
+	files.push[file];
+	return fakeAjax(file,function(text) {
+		return handleResponse(file, text);
 	});
+}
+
+var responses = {};
+function handleResponse(file, text) {
+	responses[file] = text;
+	console.log("files", files);
+	if (files.length === 3) {
+		files.map(function(x) {
+			output(responses[x]);
+		});
+		console.log("complete!");
+	}
 }
 
 // request all files at once in "parallel"

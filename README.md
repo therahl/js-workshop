@@ -205,11 +205,45 @@ Composed map functions
 Time is the most difficult state to manage.  Async patterns attempt to make time related state more declarative.
 ## Async Patterns
   * Parallel vs Async
+  * Callbacks
   * Thunks
   * Promises
   * Generators / Coroutines
+    - A fundamentally different kind of function
+  * Reactive (Observables)
+    - Starting to grow exponentially
+  * CSP (channel-oriented concurrency)
+    - Next year's big thing
+    - Redux Saga is CSP
+    - Introduced to JS by om framework
+
+
+  The new baseline for async patterns is weaving together Promises and Generators, which is the async/await pattern.
 
 ### Parallel vs Async
+Javascript is single threaded. The program written with javascript is only given a single thread, while the Javascript engine uses many threads; however, the 2017 spec added shared memory locations (think about service worker/client interaction) and mutexes (aka multithreading).
+
+### Callbacks
+Inversion control. Code you cannot trust is code you do not understand.
+Callbacks are not reasonable due to the visual, syntactic nature in which they are expressed.  At any time there is a divergence from how your brain organizes data and how your code is organized, there are bugs.
+
+Synchronous sequential and blocking progression of code is more reasonable.
+
 ### Thunks
+A thunk is a function that does not need any arguments. It can run and compute its answer and return it. It can have a callback, but it isn't necessary to complete its work (ie an async thunk would need a callback for assignment of response).
+
 ### Promises
+  * Future values - Promises are future cheeseburgers.
+  * Time independent
+  * Completion events
+  * It is a callback manager - manages callbacks in a predictable and trustable way
+  * An un-inversion of control, they revert the inversion of control due to callbacks
+  * Designed to address problems that callbacks alone cannot address
+    - Only received once
+    - Either success OR error
+    - Messages passed/kept
+    - Exceptions become errors
+    - Immutable once resolved
+  * Can only resolve a single value
+
 ### Generators / Coroutines

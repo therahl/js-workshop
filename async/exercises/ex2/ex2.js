@@ -18,10 +18,36 @@ function output(text) {
 }
 
 // **************************************
-
+//
 function getFile(file) {
-	// what do we do here?
+	var v, f;
+	fakeAjax(file, function(text) {
+		if (f) {
+			f(text);
+		} else {
+			v = text;
+		}
+	});
+	return function(cb) {
+		if (v) {
+			cb(v);
+		} else {
+			f = cb;
+		}
+	};
 }
 
-// request all files at once in "parallel"
-// ???
+var th1 = getFile('file1');
+var th2 = getFile('file2');
+var th3 = getFile('file3');
+
+th1(function(val) {
+	output(val)
+	th2(function(text) {
+		output(text)
+		th3(function(text2) {
+			output(text2)
+			console.log('Complete!');
+		});
+	});
+});
