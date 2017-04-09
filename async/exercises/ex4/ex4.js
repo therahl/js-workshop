@@ -32,5 +32,13 @@ function getFile(file) {
 // Render as each one finishes,
 // but only once previous rendering
 // is done.
+//
 
-// ???
+//this is awesome
+['file1', 'file2', 'file3']
+	.map(getFile)
+	.concat('Complete!')
+	.reduce((a, b) => {
+		return a.then(output).then(() => b);
+	})
+	.then(output)
