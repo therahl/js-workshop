@@ -246,4 +246,124 @@ A thunk is a function that does not need any arguments. It can run and compute i
     - Immutable once resolved
   * Can only resolve a single value
 
-### Generators / Coroutines
+#### Promise abstractions
+##### The gate - Promise.all
+Waits until all promises in array are complete.
+##### The timeout - Promise.race
+Takes a list of promises and waits until one resolves.  A sort of promise timeout
+```javascript
+var p = trySomeAsyncThing();
+Promise.race([
+  p,
+  new Promise(function(_, reject){
+    setTimeout(function(){
+        reject('Timeout!!');
+    }, 3000);
+  })
+])
+.then(success, error)
+```
+##### The sequence - automatically chained promises
+A pattern from the Asynquence library.
+
+### Generators / Co-routines
+Does not have the run to completion semantic that regular js functions possess.  They do no have to run to completion. 'Cooperative' concurrency aka 'co-routines', can yield execution, or pause, and allow something else to run in the thread.
+Acceptable syntax:
+```javascript
+function* () {}
+function* name() {}
+function * name() {}
+function *name() {}
+```
+Example:
+```javascript
+function * gen() {
+  console.log('hello');
+  yield;
+  console.log('world');
+}
+var it = gen(); // no console log
+it.next(); // hello
+it.next(); // world
+```
+You can think of a generator as an iterable data source. Yield is not just a flow control mechanism - it is a **message passing mechanism**;
+Example:
+```javascript
+function * main() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+var it = main();
+it.next(); // { value: 1, done: false}
+it.next(); // { value: 2, done: false}
+it.next(); // { value: 3, done: false}
+it.next(); // { value: undefined, done: true}
+```
+`.next()` can accept an argument to use as the value of yield
+
+```javascript
+function *run() {
+  var x = 1 + (yield);
+  var y = 1 + (yield);
+  yield (x + y);
+}
+let a = run();
+a.next();
+a.next(10);
+console.log('Meaning of life ' + a.next(30).value);
+```
+Async example - factoring out time.
+```javascript
+function getData(d) {
+  setTimeout(function(){
+    run.next(d); // go to next step in generator >!! inversion of control
+  }, 1000)
+}
+
+var run = function*() {
+  var x = 1 + (yield getData(10));
+  var y = 1 + (yield getData(30));
+  var answer = (yield getData('Meaning of life: ' + (x + y)));
+  console.log(answer);
+}
+run.next();
+```
+### Generators + Promises
+Yielding out a promise, iterate generator after promise resolved. Yield out a promise, then resume, yield promise, then resume, etc...
+
+You can use a generator in place of promise chains.  It gives you a synchronous flow of asynchronous data. Native js now allows this pattern with the `async` `await` pattern.
+```javascript
+async function main() {
+  var person = await getPerson();
+  var orders = await getOrders(person.id);
+  console.log(orders);
+}
+main();
+```
+Downsides: engine can only deal with promises being awaited
+A library abstraction like Asynquence accepts any type to be awaited.  Also, yield must be directly inside the generator.
+
+
+What is callback hell?
+Callbacks don't model out programs in a way that we think about them, they are not synchronous
+Promises
+A manager of callbacks, a future value, solves inversion of control by maintaining control and waiting on a message rather than a callback.
+
+### Reactive Programming
+General Theory of Reactivity
+
+|       - | Single         | Multiple       |
+| :------ | :------------- | :------------- |
+| Push    |  Callbacks     | Observables    |
+| Pull    |  Promise       | Generators     |
+
+#### Observables
+An event source where data can come in, with a series of steps/transformations.  It is a lazy array. An array like structure that we can add data to over time.  Subscribers of the observable will receive the updated observable. We add the data to the observable, and that triggers the transformations.
+Rxjs is the most popular library. However, it is HUGE.  Check out RxMarbles.com it has demos of the most popular rx operators.
+
+Asynquence has reactive sequences.
+
+#### Communicating Sequential Processes using Channels
+(aka **go**-style concurrency)
+Useful when you have a consumer of data

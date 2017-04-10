@@ -25,11 +25,15 @@ function getFile(file) {
 	});
 }
 
-// Request all files at once in
-// "parallel" via `getFile(..)`.
-//
-// Render as each one finishes,
-// but only once previous rendering
-// is done.
+ASQ().runner(function*(file) {
+  var pr1 = getFile('file 1');
+  var pr2 = getFile('file 2');
+  var pr3 = getFile('file 3');
 
-// ???
+	output(yield pr1);
+	output(yield pr2);
+	output(yield pr3);
+
+	output('Complete!');
+
+})
