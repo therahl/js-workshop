@@ -366,4 +366,7 @@ Asynquence has reactive sequences.
 
 #### Communicating Sequential Processes using Channels
 (aka **go**-style concurrency)
-Useful when you have a consumer of data
+Note: Didn't follow this closely. Do some reading on Go and get more understanding of generators and channels.
+
+# Summary
+Code is about readability. 
