@@ -352,6 +352,7 @@ A manager of callbacks, a future value, solves inversion of control by maintaini
 
 ### Reactive Programming
 General Theory of Reactivity
+https://github.com/kriskowal/gtor
 
 |       - | Single         | Multiple       |
 | :------ | :------------- | :------------- |
@@ -369,4 +370,4 @@ Asynquence has reactive sequences.
 Note: Didn't follow this closely. Do some reading on Go and get more understanding of generators and channels.
 
 # Summary
-Code is about readability. 
+Code is about readability.
